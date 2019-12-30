@@ -1,6 +1,6 @@
-FROM alpine as opencv-buildstage
+FROM alpine:3.10 as opencv-buildstage
 
-ENV OPENCV_VERSION=4.1.2
+ENV OPENCV_VERSION=4.2.0
 
 ENV BUILD="ca-certificates \
          git \
@@ -70,7 +70,7 @@ RUN mkdir -p /usr/local/lib/pkgconfig /usr/local/lib64/pkgconfig
 
 
 
-FROM alpine as opencv-runtime
+FROM alpine:3.10 as opencv-runtime
 
 # OpenCV shared objects from build-stage
 COPY --from=opencv-buildstage /usr/local/lib /usr/local/lib
