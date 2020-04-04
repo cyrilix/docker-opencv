@@ -32,7 +32,8 @@ jobs:
             docker-compose --file docker-compose.test.yml build
             docker-compose --file docker-compose.test.yml run sut
           else
-            docker build . --file Dockerfile
+            docker buildx build . --platform linux/amd64 --progress plain --target opencv-buildstage
+            docker buildx build . --platform linux/amd64 --progress plain
           fi
 
   # Push image to GitHub Package Registry.
@@ -75,7 +76,7 @@ jobs:
           echo IMAGE_ID=$IMAGE_ID
           echo VERSION=$VERSION
 
-          docker buildx build . --platform linux/arm/v7,linux/arm64,linux/X86_64 --progress plain --push --tag $IMAGE_ID:$VERSION --target opencv-buildstage
+          docker buildx build . --platform linux/arm/v7,linux/arm64,linux/amd64 --progress plain --push --tag $IMAGE_ID:$VERSION --target opencv-buildstage
 
       - name: Push buildstage image
         run: |
@@ -93,6 +94,6 @@ jobs:
           echo IMAGE_ID=$IMAGE_ID
           echo VERSION=$VERSION
 
-          docker buildx build . --platform linux/arm/v7,linux/arm64,linux/X86_64 --progress plain --push --tag $IMAGE_ID:$VERSION
+          docker buildx build . --platform linux/arm/v7,linux/arm64,linux/amd64 --progress plain --push --tag $IMAGE_ID:$VERSION
 
 
