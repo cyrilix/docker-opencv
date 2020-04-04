@@ -84,7 +84,7 @@ jobs:
 
           docker buildx build . --platform linux/arm/v7,linux/arm64,linux/amd64 --progress plain --push --tag $IMAGE_ID:$VERSION --target opencv-buildstage
 
-      - name: Push buildstage image
+      - name: Push runtime image
         run: |
           IMAGE_ID=$IMAGE_REPOSITORY/$IMAGE_NAME-runtime
 
