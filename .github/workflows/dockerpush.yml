@@ -18,37 +18,13 @@ env:
   IMAGE_NAME: opencv
 
 jobs:
-  # Run tests.
-  # See also https://docs.docker.com/docker-hub/builds/automated-testing/
-  test:
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v2
-
-      - name: Set up Docker Buildx
-        id: buildx
-        uses: crazy-max/ghaction-docker-buildx@v1
-        with:
-          version: latest
-
-      - name: Run tests
-        run: |
-          if [ -f docker-compose.test.yml ]; then
-            docker-compose --file docker-compose.test.yml build
-            docker-compose --file docker-compose.test.yml run sut
-          else
-            docker buildx build . --platform linux/amd64 --progress plain --target opencv-buildstage
-            docker buildx build . --platform linux/amd64 --progress plain
-          fi
 
   # Push image to GitHub Package Registry.
   # See also https://docs.docker.com/docker-hub/builds/
   push:
-    # Ensure test job passes before pushing image.
-    needs: test
 
     runs-on: ubuntu-latest
+    timeout-minutes: 600
     if: github.event_name == 'push'
 
     steps:
