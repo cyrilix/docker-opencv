@@ -1,6 +1,6 @@
 FROM alpine:3.10 as opencv-buildstage
 
-ENV OPENCV_VERSION=4.5.0
+ENV OPENCV_VERSION=4.5.1
 
 ENV BUILD="ca-certificates \
          git \
