@@ -1,6 +1,6 @@
 #! /bin/bash
 
-OPENCV_VERSION=4.5.5
+OPENCV_VERSION=4.6.0
 
 containerSrcName=opencv-src
 containerBuildstageBuilderName=opencv-buildstage-builder
@@ -124,7 +124,7 @@ build_opencv_buildstage_builder() {
     ${EXTRA_FLAGS} \
     -D OPENCV_GENERATE_PKGCONFIG=YES ..
 
-    buildah run "$containerName" make -j4
+    buildah run "$containerName" make -j14
     buildah run "$containerName" make install/strip
 
     buildah commit --rm "${containerName}" "${IMAGE_BUILDSTAGE_BUILDER_NAME}-${ARCH}"
